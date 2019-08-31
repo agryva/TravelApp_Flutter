@@ -14,5 +14,6 @@ class Routes {
     );
 
     router.define(root, handler: rootHandler);
+    router.define(dashboard, handler: dashboardHandler);
   }
 }

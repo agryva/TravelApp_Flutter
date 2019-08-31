@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelapp/config/application.dart';
+import 'package:travelapp/config/routes.dart';
 import 'package:travelapp/custom/pageIndicator.dart';
 import 'package:travelapp/data/OnBoardingModel.dart';
 
@@ -152,7 +154,9 @@ class _OnBoardingState extends State<OnBoardingWidget> {
                                     letterSpacing: 0.7),
                               ),
                               onPressed: () {
-
+                                Application.router.navigateTo(
+                                    context, Routes.dashboard,
+                                    clearStack: false);
                               },
                               color: Color(0xff03A4DC),
                               borderRadius: BorderRadius.circular(80),
