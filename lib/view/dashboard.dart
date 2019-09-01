@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:travelapp/data/menuDashboardModel.dart';
+import 'package:travelapp/data/topDestinationModel.dart';
 
 class DashboardWidget extends StatefulWidget {
   @override
@@ -20,7 +23,8 @@ class _DashboardState extends State<DashboardWidget> {
           builder: (context, BoxConstraints viewportConstraints) {
             return SingleChildScrollView(
               child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight),
+                constraints:
+                    BoxConstraints(minHeight: viewportConstraints.maxHeight),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -31,25 +35,6 @@ class _DashboardState extends State<DashboardWidget> {
                       ),
                       heroHeaderDashboard(),
                       topDestinationWidget(),
-                      StaggeredGridView.countBuilder(
-                        crossAxisCount: 4,
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: 8,
-                        itemBuilder: (BuildContext context, int index) => new Container(
-                            color: Colors.green,
-                            child: new Center(
-                              child: new CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: new Text('$index'),
-                              ),
-                            )),
-                        staggeredTileBuilder: (int index) =>
-                            StaggeredTile.count(2, index.isEven ? 2 : 1),
-                        mainAxisSpacing: 4,
-                        crossAxisSpacing: 3,
-                      )
                     ],
                   ),
                 ),
@@ -91,22 +76,6 @@ class _DashboardState extends State<DashboardWidget> {
   }
 
   Widget heroHeaderDashboard() {
-    var iconsMenu = [
-      Icons.flight_land,
-      Icons.train,
-      Icons.directions_boat,
-      Icons.directions_bus
-    ];
-
-    var colorIconsMenu = [
-      Color(0xff4FDCCF),
-      Color(0xff737CCE),
-      Color(0xffFF724C),
-      Color(0xffF4C406),
-    ];
-
-    var titleIconsMenu = ["Flight", "Train", "Cruise", "Bus"];
-
     return Padding(
       padding: const EdgeInsets.only(left: 4, right: 4),
       child: Column(
@@ -147,9 +116,11 @@ class _DashboardState extends State<DashboardWidget> {
             childAspectRatio: MediaQuery.of(context).size.height / 1100,
             physics: NeverScrollableScrollPhysics(),
             crossAxisCount: 4,
-            children: List.generate(4, (index) {
-              return gridMenuWidget(titleIconsMenu[index], iconsMenu[index],
-                  colorIconsMenu[index]);
+            children: List.generate(listMenuDashboard.length, (index) {
+              return gridMenuWidget(
+                  listMenuDashboard[index].title,
+                  listMenuDashboard[index].icon,
+                  listMenuDashboard[index].color);
             }),
           ),
         ],
@@ -208,7 +179,145 @@ class _DashboardState extends State<DashboardWidget> {
             )
           ],
         ),
-
+        StaggeredGridView.countBuilder(
+          crossAxisCount: 4,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          primary: true,
+          itemCount: listTopDestinations.length,
+          itemBuilder: (BuildContext context, int index) => Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Stack(
+                          children: <Widget>[
+                            CachedNetworkImage(
+                              height: index.isEven ? 220 : 170,
+                              imageUrl: listTopDestinations[index].imageUrl,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: index.isEven ? 220 : 170,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          Colors.grey, BlendMode.darken)),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  new Icon(Icons.error),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(11.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Text(
+                                            listTopDestinations[index]
+                                                .destinationName,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: "font-regular",
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          LineIcons.map_marker,
+                                          color: Colors.white,
+                                          size: 14,
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            listTopDestinations[index]
+                                                .destinationAddress,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 11.7,
+                                                fontFamily: "font-heavy",
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 0,
+                              bottom: 0,
+                              right: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4, horizontal: 8),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.star,
+                                                size: 18,
+                                                color: Colors.black54,
+                                              ),
+                                              SizedBox(width: 2,),
+                                              Text(listTopDestinations[index].rating.toString())
+                                            ],
+                                          ),
+                                        ),
+                                        decoration:
+                                            BoxDecoration(color: Colors.white),
+                                      ),
+                                    ),
+                                    Icon(
+                                      LineIcons.arrow_circle_down,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 2,
+                ),
+              ],
+            ),
+          ),
+          staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+        )
       ],
     );
   }
