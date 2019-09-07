@@ -5,6 +5,7 @@ import 'package:travelapp/config/route_handler.dart';
 class Routes {
   static String root = "/";
   static String dashboard = "/dashboard";
+  static String detail = "/detail";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -15,5 +16,6 @@ class Routes {
 
     router.define(root, handler: rootHandler);
     router.define(dashboard, handler: dashboardHandler);
+    router.define(detail, handler: detailHandler);
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travelapp/data/menuDashboardModel.dart';
 import 'package:travelapp/data/topDestinationModel.dart';
+import 'package:travelapp/view/detail.dart';
 
 class DashboardWidget extends StatefulWidget {
   @override
@@ -189,126 +190,141 @@ class _DashboardState extends State<DashboardWidget> {
             padding: const EdgeInsets.all(4.0),
             child: Column(
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            CachedNetworkImage(
-                              height: index.isEven ? 220 : 170,
-                              imageUrl: listTopDestinations[index].imageUrl,
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
+                GestureDetector(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              CachedNetworkImage(
                                 height: index.isEven ? 220 : 170,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                      colorFilter: ColorFilter.mode(
-                                          Colors.grey, BlendMode.darken)),
+                                imageUrl: listTopDestinations[index].imageUrl,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  height: index.isEven ? 220 : 170,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                            Colors.grey, BlendMode.darken)),
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) =>
+                                    new Icon(Icons.error),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  new Icon(Icons.error),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(11.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Text(
-                                            listTopDestinations[index]
-                                                .destinationName,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: "font-regular",
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(11.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Text(
+                                              listTopDestinations[index]
+                                                  .destinationName,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: "font-regular",
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          LineIcons.map_marker,
-                                          color: Colors.white,
-                                          size: 14,
-                                        ),
-                                        SizedBox(
-                                          width: 2,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            listTopDestinations[index]
-                                                .destinationAddress,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 11.7,
-                                                fontFamily: "font-heavy",
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 0,
-                              bottom: 0,
-                              right: 0,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 8),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.star,
-                                                size: 18,
-                                                color: Colors.black54,
-                                              ),
-                                              SizedBox(width: 2,),
-                                              Text(listTopDestinations[index].rating.toString())
-                                            ],
-                                          ),
-                                        ),
-                                        decoration:
-                                            BoxDecoration(color: Colors.white),
+                                        ],
                                       ),
-                                    ),
-                                    Icon(
-                                      LineIcons.arrow_circle_down,
-                                      color: Colors.white,
-                                    )
-                                  ],
+                                      SizedBox(
+                                        height: 2,
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            LineIcons.map_marker,
+                                            color: Colors.white,
+                                            size: 14,
+                                          ),
+                                          SizedBox(
+                                            width: 2,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              listTopDestinations[index]
+                                                  .destinationAddress,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 11.7,
+                                                  fontFamily: "font-heavy",
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ],
+                              Positioned(
+                                left: 0,
+                                bottom: 0,
+                                right: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4, horizontal: 8),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.star,
+                                                  size: 18,
+                                                  color: Colors.black54,
+                                                ),
+                                                SizedBox(
+                                                  width: 2,
+                                                ),
+                                                Text(listTopDestinations[index]
+                                                    .rating
+                                                    .toString())
+                                              ],
+                                            ),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                      Icon(
+                                        LineIcons.arrow_circle_down,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => DetailWidget(
+                                destinationModel: listTopDestinations[index])));
+                  },
                 ),
                 SizedBox(
                   height: 2,

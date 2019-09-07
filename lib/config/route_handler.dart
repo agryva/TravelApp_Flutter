@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:travelapp/view/dashboard.dart';
+import 'package:travelapp/view/detail.dart';
 import 'package:travelapp/view/onboarding.dart';
 
 var rootHandler = Handler(
@@ -11,4 +12,9 @@ var rootHandler = Handler(
 var dashboardHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return DashboardWidget();
+});
+
+var detailHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return DetailWidget();
 });
